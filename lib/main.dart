@@ -9,5 +9,5 @@ import 'ui/home.dart';
   runApp(
 }*/
 void main()=>runApp(new MaterialApp(
-  home: Wisdom(),
+  home: QuizApp(),
 ));
