@@ -1,6 +1,343 @@
 
+import 'package:albinflutter/model/question.dart';
+import 'package:albinflutter/util/hexcolor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+
+class QuizApp extends StatefulWidget {
+
+  @override
+  _QuizAppState createState() => _QuizAppState();
+}
+
+class _QuizAppState extends State<QuizApp> {
+  int _currentQuestionIndex=0;
+  List questionBank=[
+    Question.name("Albin is it a girl?", false),
+    Question.name("Albin have 20 year old", false),
+    Question.name("Albin love programming? ", true),
+    Question.name("Albin was married? ", false),
+    Question.name("Albin take 6 hour to learn programming? ", true),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+        title: Text("Albin Tabara"),
+    centerTitle: true,
+    backgroundColor: Colors.blueGrey,
+    ),
+      backgroundColor: Colors.blueGrey,
+    body: Builder(
+      builder:(BuildContext context) =>Container(
+        child:Column (
+          mainAxisAlignment: MainAxisAlignment.center,
+children: [
+  Center(
+      child: Image.asset("images/albin.png",
+      width: 200,
+      height: 200,),
+  ),
+  Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(14.0),
+          border: Border.all(
+            color: Colors.grey.shade700,style: BorderStyle.solid,
+          )
+        ),
+        height: 100.0,
+        child: Center(child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(questionBank[_currentQuestionIndex].questionText, style: TextStyle(
+            color: Colors.white,
+            fontSize: 16.9,
+          ),),
+        )),
+      ),
+  ),
+  Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+RaisedButton(onPressed: ()=> _checkAnswer(true,context),
+color: Colors.blueGrey.shade900,
+child: Text("TRUE",style: TextStyle(color: Colors.white,)),),
+
+        RaisedButton(onPressed: ()=> _checkAnswer(false,context),
+
+
+          color: Colors.blueGrey.shade900,
+          child: Text("FALSE",style: TextStyle(color: Colors.white,),),
+        ),
+
+        RaisedButton(onPressed: ()=> _previewQuestion(),
+          color: Colors.blueGrey.shade900,
+          child: Icon(Icons.arrow_forward,color: Colors.white,),),
+        RaisedButton(onPressed: ()=> _nextQuestion(),
+          color: Colors.blueGrey.shade900,
+          child: Icon(Icons.arrow_back,color: Colors.white,),),
+      ],
+  ),
+  Spacer(),
+],
+        ),
+      ),
+    ),);
+  }
+  _checkAnswer(bool userChoice,BuildContext context){
+if(userChoice==questionBank[_currentQuestionIndex].isCorrect){
+  final snackbare=SnackBar(content: Text("Yes is correct"),
+      duration: Duration(milliseconds: 500),
+      backgroundColor: Colors.lightBlueAccent.shade700);
+  Scaffold.of(context).showSnackBar(snackbare);
+  _updateQuestion();
+}else{
+  debugPrint("incorrect");
+  final snackbare=SnackBar(content: Text("incorrect"),
+      duration: Duration(milliseconds: 500),
+      backgroundColor: Colors.redAccent.shade700);
+  Scaffold.of(context).showSnackBar(snackbare);
+  _updateQuestion();
+}
+  }
+_updateQuestion(){
+  setState(() {
+    _currentQuestionIndex=(_currentQuestionIndex+1)%questionBank.length;
+
+  });
+}
+  _nextQuestion() {
+   _updateQuestion();
+
+  }
+
+  _previewQuestion() {
+    setState(() {
+      _currentQuestionIndex=(_currentQuestionIndex-1)%questionBank.length;
+
+    });
+  }
+}
+
+
+
+class BillSplitter extends StatefulWidget {
+
+  @override
+  _BillSplitterState createState() => _BillSplitterState();
+}
+
+class _BillSplitterState extends State<BillSplitter> {
+
+  int _tipPersentage=0;
+  int _personCounter=0;
+  double _billAmount=0.0;
+  Color _purpet=HexColor("#6908D6");
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height *0.1),
+        alignment: Alignment.center,
+        color: Colors.white,
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          padding: EdgeInsets.all(20.5),
+          children: [
+            Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                color:_purpet.withOpacity(0.1), //Colors.purpleAccent.shade100,
+                borderRadius: BorderRadius.circular(12.0)
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Total per Person",style: TextStyle(
+                  color: _purpet,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 17.0,
+                ),),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text("\$ ${calculateTotalPerson(_billAmount, _personCounter, _tipPersentage)}",style: TextStyle(
+                        color: _purpet,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 34.0,
+                      ),),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 20.0),
+              padding: EdgeInsets.all(12.0),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                border: Border.all(
+                  color: Colors.blueGrey.shade100,
+                  style: BorderStyle.solid,
+                ),
+                  borderRadius: BorderRadius.circular(12.0),
+
+              ),
+              child: Column(
+                children: [
+TextField(
+  keyboardType: TextInputType.numberWithOptions(decimal: true),
+  style: TextStyle(color:_purpet),
+  decoration: InputDecoration(
+    prefixText: "Bill Amount ",
+    prefixIcon: Icon(Icons.attach_money),
+
+  ),
+  onChanged: (String value){
+    try{
+      _billAmount=double.parse(value);
+    }catch(exception){
+      _billAmount=0.0;
+    }
+  },
+),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Split",style: TextStyle(
+                        color: Colors.grey.shade700,
+
+                      ),),
+                      Row(children: [
+                        InkWell(
+                          onTap: (){
+                            setState(() {
+                              if(_personCounter>1){
+                                _personCounter--;
+                              }
+                            });
+                          },
+                          child: Container(
+                            width: 40.0,
+                            height: 40.0,
+                            margin: EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7.0),
+                              color:_purpet.withOpacity(0.1),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "-",style: TextStyle(
+                                color: _purpet,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17.0,
+
+                              ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Text("$_personCounter", style: TextStyle(
+                          color: _purpet,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17.0,
+                        ),),
+                        InkWell(
+                          onTap: (){
+                            setState(() {
+                              _personCounter++;
+                            });
+                          },
+                          child: Container(
+                            width: 40.0,
+                            height: 40.0,
+                            margin: EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7.0),
+                              color:_purpet.withOpacity(0.1),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "+",style: TextStyle(
+                                color: _purpet,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17.0,
+
+                              ),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                      ],)
+                    ],
+                  ), Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Tip",style: TextStyle(
+                        color: Colors.grey.shade700,
+                      ),),
+                      Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Text("\$ ${(calculateTotalTip(_billAmount,_personCounter,_tipPersentage)).toStringAsFixed(2)}",style: TextStyle(
+                          color: _purpet,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17.0,
+                        ),),
+                      )
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text("$_tipPersentage%",style: TextStyle(
+                    color: _purpet,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17.0,
+                  ),),
+                      Slider(
+                        min: 0,
+                          max:100,
+                          activeColor: _purpet,
+                          inactiveColor: Colors.grey,
+                          divisions: 10,
+
+                          value: _tipPersentage.toDouble(),
+                          onChanged:(double newValue){
+                        setState(() {
+                          _tipPersentage=newValue.round();
+                        });
+
+                          })
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+  calculateTotalPerson(double billAmount, int splitBy,int tipPercentage ){
+ var totalPerPerson=(calculateTotalTip(billAmount, splitBy, tipPercentage)+billAmount)/splitBy;
+ return totalPerPerson.toStringAsFixed(2);
+  }
+  calculateTotalTip(double billAmount, int splitBy, int tipPercentage){
+double totalTip=0.0;
+if(billAmount<0||billAmount.toString().isEmpty||billAmount==null){
+
+}else{
+  totalTip=(billAmount*tipPercentage)/100;
+}
+return totalTip;
+  }
+}
+
 
 class Wisdom extends StatefulWidget {
 
