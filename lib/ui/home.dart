@@ -1,8 +1,171 @@
 
+import 'dart:ffi';
+
+import 'package:albinflutter/model/movie.dart';
 import 'package:albinflutter/model/question.dart';
 import 'package:albinflutter/util/hexcolor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'movie_ui/movie_ui.dart';
+
+class MoviesListView extends StatefulWidget {
+
+
+
+  @override
+  _MoviesListViewState createState() => _MoviesListViewState();
+}
+
+class _MoviesListViewState extends State<MoviesListView> {
+  final List<Movie>movieList= Movie.getMovies();
+  final List movies=[
+    "Titanic",
+    "Blade Runner",
+    "Rambo",
+    "The Avengers",
+    "Avatar",
+    "I Am Legend",
+    "300",
+    "The Wolf of Wall Street",
+    "Interstellar",
+    "Game of Thrones",
+    "Vikings"
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Movies Albin"),
+      backgroundColor:Colors.blueGrey.shade900,
+      ),
+      backgroundColor:Colors.blueGrey.shade900,
+      body: ListView.builder(
+          itemCount: movieList.length,
+          itemBuilder: (BuildContext context,int index){
+            return Stack(children:[
+              movieCard(movieList[index], context),
+              Positioned(
+                  top: 10.0,
+                  child: movieImage(movieList[index].poster)),
+             ]);
+        // return Card(
+        //   elevation: 4.5,
+        //   color: Colors.white,
+        //   child: ListTile(
+        //     leading: CircleAvatar(
+        //       child: Container(
+        //         width: 200,
+        //         height: 200,
+        //         decoration: BoxDecoration(
+        //           color: Colors.blue,
+        //           image: DecorationImage(
+        //             image: NetworkImage(movieList[index].poster),
+        //           ),
+        //           borderRadius: BorderRadius.circular(13.9),
+        //         ),
+        //         child:Text("H"),
+        //
+        //       ),
+        //     ),
+        //     trailing: Text("..."),
+        //     title: Text(movieList.elementAt(index).title),
+        //     subtitle: Text("${movieList[index].year}"),
+        //     //onTap: ()=>debugPrint("Movie name ${movies.elementAt(index)}"),
+        //    onTap: (){
+        //       Navigator.push(context, MaterialPageRoute(builder: (context)=>MovieListViewDetail(movieName: movieList.elementAt(index).title,
+        //       movie: movieList[index],)));
+        //    },
+        //   ),
+        //
+        // );
+      }),
+    );
+  }
+  Widget movieCard(Movie movie,BuildContext context){
+    return InkWell(
+      child: Container(
+        margin: EdgeInsets.only(
+          left: 40,
+        ),
+        width: MediaQuery.of(context).size.width,
+        height: 120.0,
+        child: Card(
+          color: Colors.black45,
+          child: Padding(
+            padding: const EdgeInsets.only(top:8.0,
+              bottom: 8.0,
+              left: 54.0,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                    children: [
+                      Flexible(
+                        child: Text(movie.title,style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.5,
+                          color: Colors.white,
+                        ),),
+                      ),
+                      Text("Rated: ${movie.rated} /10",style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 12.5,
+                      ),)
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+
+                      Text("Realased: ${movie.year}",style:mainTextStyle(),),
+                      Text(movie.runtime,style:mainTextStyle(),),
+                      Text(movie.type,style: mainTextStyle(),)
+                    ],
+                  )
+
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    onTap: (){
+         Navigator.push(context, MaterialPageRoute(builder: (context)=>MovieListViewDetail(movieName: movie.title,
+          movie: movie,)));
+       },
+    );
+  }
+  TextStyle mainTextStyle(){
+    return TextStyle(
+      color: Colors.white70,
+      fontSize: 12.5,
+    );
+  }
+  Widget movieImage(String imageUrl){
+
+    return Container(
+      width: 100,
+      height: 100,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.yellow,
+        image: DecorationImage(
+          image: NetworkImage(imageUrl),
+
+          fit: BoxFit.cover,
+        )
+      ),
+    );
+  }
+}
+
 
 
 class QuizApp extends StatefulWidget {
@@ -61,24 +224,33 @@ children: [
   ),
   Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisSize: MainAxisSize.max,
       children: [
+
+        SizedBox(
+          width: 60,
+          child: RaisedButton(onPressed: ()=> _nextQuestion(),
+            color: Colors.blueGrey.shade900,
+            child: Icon(Icons.arrow_back,color: Colors.white,),),
+        ),
 RaisedButton(onPressed: ()=> _checkAnswer(true,context),
 color: Colors.blueGrey.shade900,
 child: Text("TRUE",style: TextStyle(color: Colors.white,)),),
 
         RaisedButton(onPressed: ()=> _checkAnswer(false,context),
-
-
-          color: Colors.blueGrey.shade900,
+       color: Colors.blueGrey.shade900,
           child: Text("FALSE",style: TextStyle(color: Colors.white,),),
         ),
 
-        RaisedButton(onPressed: ()=> _previewQuestion(),
-          color: Colors.blueGrey.shade900,
-          child: Icon(Icons.arrow_forward,color: Colors.white,),),
-        RaisedButton(onPressed: ()=> _nextQuestion(),
-          color: Colors.blueGrey.shade900,
-          child: Icon(Icons.arrow_back,color: Colors.white,),),
+        SizedBox(
+          width: 60,
+          child: RaisedButton(onPressed: ()=> _previewQuestion(),
+            color: Colors.blueGrey.shade900,
+
+
+            child: Icon(Icons.arrow_forward,color: Colors.white,),),
+        ),
+
       ],
   ),
   Spacer(),
@@ -121,7 +293,6 @@ _updateQuestion(){
     });
   }
 }
-
 
 
 class BillSplitter extends StatefulWidget {
@@ -479,7 +650,7 @@ class BizCard extends StatelessWidget {
       decoration: BoxDecoration(color: Colors.white,
       borderRadius: BorderRadius.all(Radius.circular(50)),
       border: Border.all(color:Colors.redAccent,width: 1.2 ),
-      image: DecorationImage(image: NetworkImage("https://picsum.photos/300/300"),
+      image: DecorationImage(image: NetworkImage("https://www.facebook.com/photo.php?fbid=2811276322462225&set=t.100007396543211&type=3"),
       fit: BoxFit.cover,)),
     );
  }
