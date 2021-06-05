@@ -229,15 +229,15 @@ children: [
         SizedBox(
           width: 60,
           child: RaisedButton(onPressed: ()=> _nextQuestion(),
-            color: Colors.blueGrey.shade900,
+            color: Colors.pinkAccent.shade200,
             child: Icon(Icons.arrow_back,color: Colors.white,),),
         ),
 RaisedButton(onPressed: ()=> _checkAnswer(true,context),
-   color: Colors.blueGrey.shade900,
+   color: Colors.pinkAccent.shade200,
 child: Text("TRUE",style: TextStyle(color: Colors.white,)),),
 
-        ElevatedButton(onPressed: ()=> _checkAnswer(false,context),
-      //color: Colors.blueGrey.shade900,
+        RaisedButton(onPressed: ()=> _checkAnswer(false,context),
+      color: Colors.pinkAccent.shade200,
 
           child: Text("FALSE",style: TextStyle(color: Colors.white,),),
         ),
@@ -245,7 +245,7 @@ child: Text("TRUE",style: TextStyle(color: Colors.white,)),),
         SizedBox(
           width: 60,
           child: RaisedButton(onPressed: ()=> _previewQuestion(),
-            color: Colors.blueGrey.shade900,
+            color: Colors.pinkAccent.shade200,
 
 
             child: Icon(Icons.arrow_forward,color: Colors.white,),),
