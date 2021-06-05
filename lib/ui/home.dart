@@ -189,9 +189,9 @@ class _QuizAppState extends State<QuizApp> {
         appBar: AppBar(
         title: Text("Albin Tabara"),
     centerTitle: true,
-    backgroundColor: Colors.blueGrey,
+  //  backgroundColor: Colors.blueGrey,
     ),
-      backgroundColor: Colors.blueGrey,
+    //  backgroundColor: Colors.blueGrey,
     body: Builder(
       builder:(BuildContext context) =>Container(
         child:Column (
@@ -215,10 +215,9 @@ children: [
         height: 100.0,
         child: Center(child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(questionBank[_currentQuestionIndex].questionText, style: TextStyle(
-            color: Colors.white,
-            fontSize: 16.9,
-          ),),
+          child: Text(questionBank[_currentQuestionIndex].questionText,
+            // style: TextStyle(color: Colors.white, fontSize: 16.9,),
+            ),
         )),
       ),
   ),
@@ -234,11 +233,12 @@ children: [
             child: Icon(Icons.arrow_back,color: Colors.white,),),
         ),
 RaisedButton(onPressed: ()=> _checkAnswer(true,context),
-color: Colors.blueGrey.shade900,
+   color: Colors.blueGrey.shade900,
 child: Text("TRUE",style: TextStyle(color: Colors.white,)),),
 
-        RaisedButton(onPressed: ()=> _checkAnswer(false,context),
-       color: Colors.blueGrey.shade900,
+        ElevatedButton(onPressed: ()=> _checkAnswer(false,context),
+      //color: Colors.blueGrey.shade900,
+
           child: Text("FALSE",style: TextStyle(color: Colors.white,),),
         ),
 
