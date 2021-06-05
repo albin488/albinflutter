@@ -39,7 +39,7 @@ return base.copyWith(
   ),
   bodyText2: base.bodyText2.copyWith(
     fontSize: 16.9,
-   // fontFamily: "Blazed",
+    fontFamily: "Blazed",
     color: Colors.red,
   ),
   button: base.button.copyWith(
