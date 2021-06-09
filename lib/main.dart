@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import 'parsing_json/json_parsing.dart';
 import 'ui/home.dart';
 
 /*void main() {
@@ -39,8 +40,8 @@ return base.copyWith(
   ),
   bodyText2: base.bodyText2.copyWith(
     fontSize: 16.9,
-    fontFamily: "Blazed",
-    color: Colors.red,
+    //fontFamily: "Blazed",
+   // color: Colors.red,
   ),
   button: base.button.copyWith(
     //backgroundColor: Colors.redAccent,
@@ -64,5 +65,5 @@ void main()=>runApp(new MaterialApp(
   //   ),
   //   ),
   // ),
-  home: QuizApp(),
+  home: JsonParsingSimple(),
 ));
