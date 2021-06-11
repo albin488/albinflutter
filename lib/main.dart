@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'parsing_json/json_parsing.dart';
+import 'parsing_json/json_parsing_map.dart';
 import 'ui/home.dart';
 
 /*void main() {
@@ -31,15 +32,15 @@ return base.copyWith(
     fontWeight: FontWeight.w500,
   ),
   headline5: base.headline5.copyWith(
-    fontSize: 18.0,
+    fontSize: 14.0,
     color: Colors.red,
   ),
   caption: base.caption.copyWith(
     fontWeight: FontWeight.w400,
-    fontSize: 14.0
+    fontSize: 8.0
   ),
   bodyText2: base.bodyText2.copyWith(
-    fontSize: 16.9,
+    fontSize: 10.9,
     //fontFamily: "Blazed",
    // color: Colors.red,
   ),
@@ -65,5 +66,5 @@ void main()=>runApp(new MaterialApp(
   //   ),
   //   ),
   // ),
-  home: JsonParsingSimple(),
+  home: JsonParsingMap(),
 ));
